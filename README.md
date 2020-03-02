@@ -3,6 +3,8 @@
 A simple [Koikatu](http://www.illusion.jp/preview/koikatu/index.php) (コイカツ！) save game editor written in TypeScript/React.
 It serves as a personal experiment with browser and language features. And React.
 
+[Live Demo](https://hozuki.github.io/kk-save-edit/)
+
 This is a port of [KGSE](https://github.com/hozuki/KoikatuGameSaveEditor). Since WinForms has severe
 performance issue dealing with tons of control windows, maybe an implementation running in browsers
 can help. In fact, it does. Although you still have to wait some time for creation of elements, it is
