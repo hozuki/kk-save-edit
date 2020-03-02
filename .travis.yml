@@ -5,6 +5,7 @@ install:
   - npm install
 script:
   - npm run compile-gulpfile
+  - npm run compile
   - npm run bundle
 deploy:
   provider: pages
