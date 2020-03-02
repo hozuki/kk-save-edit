@@ -314,6 +314,7 @@ export default class FemaleInfoPanel extends React.Component<FemaleInfoPanelProp
         const values = this.state.values;
 
         Guard.defined(values.personality) && ($.personality = values.personality);
+        Guard.defined(values.weakPoint) && ($.weakPoint = values.weakPoint);
         Guard.defined(values.answers) && setBooleanProperties($.answers, nameof(values.answers));
         Guard.defined(values.sexPrefs) && setBooleanProperties($.sexPrefs, nameof(values.sexPrefs));
         Guard.defined(values.traits) && setBooleanProperties($.traits, nameof(values.traits));
