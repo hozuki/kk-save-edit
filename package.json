@@ -1,0 +1,63 @@
+{
+    "name": "kk-save-edit",
+    "version": "1.0.0",
+    "description": "Save editor for Koikatu",
+    "main": "index.js",
+    "scripts": {
+        "compile": "ttsc --project src/tsconfig.json",
+        "compile-gulpfile": "tsc --project tsconfig-gulpfile.json",
+        "bundle": "gulp bundle",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "gulp-build": "gulp build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hozuki/kk-save-edit.git"
+    },
+    "keywords": [
+        "koikatu"
+    ],
+    "author": "George Wu <uiharu@buaa.edu.cn>",
+    "license": "WTFPL",
+    "bugs": {
+        "url": "https://github.com/hozuki/kk-save-edit/issues"
+    },
+    "homepage": "https://github.com/hozuki/kk-save-edit#readme",
+    "dependencies": {
+        "@material-ui/core": "^4.9.5",
+        "@material-ui/icons": "^4.9.1",
+        "@msgpack/msgpack": "^1.11.1",
+        "@types/browserify": "^12.0.36",
+        "@types/file-saver": "^2.0.1",
+        "@types/gulp": "^4.0.6",
+        "@types/gulp-rename": "0.0.33",
+        "@types/gulp-sourcemaps": "0.0.32",
+        "@types/gulp-uglify": "^3.0.6",
+        "@types/gulp-util": "^3.0.34",
+        "@types/node": "^13.7.6",
+        "@types/react": "^16.9.23",
+        "@types/react-dom": "^16.9.5",
+        "@types/vinyl-buffer": "^1.0.0",
+        "@types/vinyl-source-stream": "0.0.30",
+        "browserify": "^16.5.0",
+        "file-saver": "^2.0.2",
+        "gulp-rename": "^2.0.0",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-typescript": "^6.0.0-alpha.1",
+        "gulp-uglify": "^3.0.2",
+        "gulp-util": "^3.0.8",
+        "js-sha256": "^0.9.0",
+        "react": "^16.13.0",
+        "react-dom": "^16.13.0",
+        "ts-nameof": "^4.2.2",
+        "tslib": "^1.11.1",
+        "vinyl-buffer": "^1.0.1",
+        "vinyl-source-stream": "^2.0.0"
+    },
+    "devDependencies": {
+        "gulp": "^4.0.2",
+        "tslint": "^6.0.0",
+        "ttypescript": "^1.5.10",
+        "typescript": "^3.8.2"
+    }
+}

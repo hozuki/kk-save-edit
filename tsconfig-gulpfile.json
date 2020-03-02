@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES5",
+        "lib": [
+            "ES2015",
+            "DOM"
+        ],
+        "sourceMap": true,
+        "resolveJsonModule": true
+    },
+    "files": [
+        "gulpfile.ts"
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES5",
+        "lib": [
+            "DOM",
+            "ES2015"
+        ],
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "resolveJsonModule": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "alwaysStrict": true,
+        "jsx": "react",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "downlevelIteration": true,
+        "plugins": [
+            {
+                "transform": "ts-nameof",
+                "type": "raw"
+            }
+        ]
+    },
+    "include": [
+        "**/*",
+        "../node_modules/ts-nameof/ts-nameof.d.ts"
+    ]
+}

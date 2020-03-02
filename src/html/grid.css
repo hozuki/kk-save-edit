@@ -1,0 +1,15 @@
+/* https://w3bits.com/equal-height-css-columns/ */
+
+.f-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-left: -1rem;
+    flex-flow: row wrap;
+}
+
+.f-grid-cell {
+    flex: 1 0;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    min-width: 640px;
+}
