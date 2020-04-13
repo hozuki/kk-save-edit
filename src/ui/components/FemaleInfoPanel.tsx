@@ -17,11 +17,10 @@ import Nullable from "../../common/types/Nullable";
 import PropBag from "../../core/PropBag";
 import KnownPercentageKey from "../../core/internal/known/KnownPercentageKey";
 import Enumerable from "../../core/util/Enumerable";
-import Utf8String from "../../core/util/Utf8String";
-import ValidationRE from "../ValidationRE";
 import * as lang from "../lang/default.lang.json";
 import FemaleInfoPanelProps from "./FemaleInfoPanelProps";
 import FemaleInfoPanelState from "./FemaleInfoPanelState";
+import FieldValidator from "./FieldValidator";
 
 export default class FemaleInfoPanel extends React.Component<FemaleInfoPanelProps, FemaleInfoPanelState> {
 
@@ -242,71 +241,18 @@ export default class FemaleInfoPanel extends React.Component<FemaleInfoPanelProp
         const values = this.state.values;
         const errors = this.state.errors;
 
-        validateString(nameof(values.lastName), value => $.lastName = value);
-        validateString(nameof(values.firstName), value => $.firstName = value);
-        validateString(nameof(values.nickname), value => $.nickname = value);
-        validateInt(nameof(values.feeling), 0, 100, value => $.feeling = value);
-        validateInt(nameof(values.hDegree), 0, 100, value => $.eroticDegree = value);
-        validateInt(nameof(values.hCount), 0, 100, value => $.hCount = value);
-        validateInt(nameof(values.intimacy), 0, 100, value => $.intimacy = value);
+        FieldValidator.validateString(values, errors, nameof(values.lastName), value => $.lastName = value);
+        FieldValidator.validateString(values, errors, nameof(values.firstName), value => $.firstName = value);
+        FieldValidator.validateString(values, errors, nameof(values.nickname), value => $.nickname = value);
+        FieldValidator.validateInt(values, errors, nameof(values.feeling), 0, 100, value => $.feeling = value);
+        FieldValidator.validateInt(values, errors, nameof(values.hDegree), 0, 100, value => $.eroticDegree = value);
+        FieldValidator.validateInt(values, errors, nameof(values.hCount), 0, 100, value => $.hCount = value);
+        FieldValidator.validateInt(values, errors, nameof(values.intimacy), 0, 100, value => $.intimacy = value);
 
         this.setState({
             values,
             errors
         });
-
-        function validateString(key: string, setValueCallback: (value: string) => void): boolean {
-            const v = values[key];
-            let ok = true;
-
-            if (Guard.defined(v)) {
-                if (v.length > 0) {
-                    const bytes = Utf8String.toBytes(v!);
-
-                    if (bytes.length > 0xff) {
-                        errors[key] = "String is too long";
-                        ok = false;
-                    }
-                }
-
-                if (ok) {
-                    errors[key] = "";
-                    setValueCallback(v);
-                }
-            } else {
-                ok = false;
-            }
-
-            return ok;
-        }
-
-        function validateInt(key: string, min: number, max: number, setValueCallback: (value: number) => void): boolean {
-            const v = values[key];
-            let ok = true;
-
-            if (Guard.defined(v)) {
-                if (ValidationRE.positiveInteger.test(v)) {
-                    const n = Number.parseInt(v);
-
-                    if (n < min || n > max) {
-                        errors[key] = `Should be between ${min} and ${max}`;
-                        ok = false;
-                    }
-                } else {
-                    errors[key] = "Should be an integer";
-                    ok = false;
-                }
-
-                if (ok) {
-                    errors[key] = "";
-                    setValueCallback(Number.parseInt(v));
-                }
-            } else {
-                ok = false;
-            }
-
-            return ok;
-        }
     }
 
     private setAutoValues(): void {

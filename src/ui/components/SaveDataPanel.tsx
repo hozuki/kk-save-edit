@@ -1,25 +1,34 @@
-import React from "react";
+import {TextField} from "@material-ui/core";
+import React, {ChangeEvent} from "react";
 import ArgumentOutOfRangeError from "../../common/errors/ArgumentOutOfRangeError";
 import FemaleCharacter from "../../core/FemaleCharacter";
 import Gender from "../../core/Gender";
 import MaleCharacter from "../../core/MaleCharacter";
 import CommonCharacterPanel from "./CommonCharacterPanel";
 import FemaleInfoPanel from "./FemaleInfoPanel";
+import FieldValidator from "./FieldValidator";
 import MaleInfoPanel from "./MaleInfoPanel";
 import SaveDataPanelProps from "./SaveDataPanelProps";
 import SaveDataPanelState from "./SaveDataPanelState";
-import {Typography} from "@material-ui/core";
 
 export default class SaveDataPanel extends React.Component<SaveDataPanelProps, SaveDataPanelState> {
 
+    constructor(props: SaveDataPanelProps) {
+        super(props);
+
+        this._onTextChange = this.onTextChange.bind(this);
+    }
+
     render(): React.ReactNode {
         const data = this.props.data;
+        const errors = this.state.errors;
 
         if (data) {
             const saveDataInfo = <div>
-                <Typography>
-                    School: {data.schoolName}
-                </Typography>
+                <TextField label="School name"
+                           defaultValue={data.schoolName} placeholder={data.schoolName}
+                           onChange={e => this._onTextChange(nameof(this.state.errors.schoolName), e)}
+                           error={!!errors.schoolName} helperText={errors.schoolName}/>
             </div>;
             // I didn't use GridList here because it does not meet the requirements here
             const characterList = <div id="character-list" className="f-grid">
@@ -34,6 +43,11 @@ export default class SaveDataPanel extends React.Component<SaveDataPanelProps, S
             return <div/>;
         }
     }
+
+    readonly state: SaveDataPanelState = {
+        values: Object.create(null),
+        errors: Object.create(null),
+    };
 
     private getPanels(): React.ReactNodeArray {
         const data = this.props.data!;
@@ -66,5 +80,27 @@ export default class SaveDataPanel extends React.Component<SaveDataPanelProps, S
 
         return result;
     }
+
+    private onTextChange(fieldName: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
+        const values = this.state.values;
+        values[fieldName] = event.target.value;
+
+        this.validateAndSetFields();
+    }
+
+    private validateAndSetFields(): void {
+        const data = this.props.data!;
+        const values = this.state.values;
+        const errors = this.state.errors;
+
+        FieldValidator.validateString(values, errors, nameof(values.schoolName), value => data.schoolName = value);
+
+        this.setState({
+            values,
+            errors
+        });
+    }
+
+    private readonly _onTextChange: (fieldName: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 
 }

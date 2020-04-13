@@ -1,10 +1,8 @@
+import {Grid, TextField} from "@material-ui/core";
 import React, {ChangeEvent} from "react";
+import FieldValidator from "./FieldValidator";
 import MaleInfoPanelProps from "./MaleInfoPanelProps";
 import MaleInfoPanelState from "./MaleInfoPanelState";
-import {Grid, TextField} from "@material-ui/core";
-import Guard from "../../common/Guard";
-import Utf8String from "../../core/util/Utf8String";
-import ValidationRE from "../ValidationRE";
 
 export default class MaleInfoPanel extends React.Component<MaleInfoPanelProps, MaleInfoPanelState> {
 
@@ -75,70 +73,17 @@ export default class MaleInfoPanel extends React.Component<MaleInfoPanelProps, M
         const values = this.state.values;
         const errors = this.state.errors;
 
-        validateString(nameof(values.lastName), value => $.lastName = value);
-        validateString(nameof(values.firstName), value => $.firstName = value);
-        validateString(nameof(values.nickname), value => $.nickname = value);
-        validateInt(nameof(values.intelligence), 0, 100, value => $.intelligence = value);
-        validateInt(nameof(values.strength), 0, 100, value => $.strength = value);
-        validateInt(nameof(values.hentai), 0, 100, value => $.hentai = value);
+        FieldValidator.validateString(values, errors, nameof(values.lastName), value => $.lastName = value);
+        FieldValidator.validateString(values, errors, nameof(values.firstName), value => $.firstName = value);
+        FieldValidator.validateString(values, errors, nameof(values.nickname), value => $.nickname = value);
+        FieldValidator.validateInt(values, errors, nameof(values.intelligence), 0, 100, value => $.intelligence = value);
+        FieldValidator.validateInt(values, errors, nameof(values.strength), 0, 100, value => $.strength = value);
+        FieldValidator.validateInt(values, errors, nameof(values.hentai), 0, 100, value => $.hentai = value);
 
         this.setState({
             values,
             errors
         });
-
-        function validateString(key: string, setValueCallback: (value: string) => void): boolean {
-            const v = values[key];
-            let ok = true;
-
-            if (Guard.defined(v)) {
-                if (v.length > 0) {
-                    const bytes = Utf8String.toBytes(v!);
-
-                    if (bytes.length > 0xff) {
-                        errors[key] = "String is too long";
-                        ok = false;
-                    }
-                }
-
-                if (ok) {
-                    errors[key] = "";
-                    setValueCallback(v);
-                }
-            } else {
-                ok = false;
-            }
-
-            return ok;
-        }
-
-        function validateInt(key: string, min: number, max: number, setValueCallback: (value: number) => void): boolean {
-            const v = values[key];
-            let ok = true;
-
-            if (Guard.defined(v)) {
-                if (ValidationRE.positiveInteger.test(v)) {
-                    const n = Number.parseInt(v);
-
-                    if (n < min || n > max) {
-                        errors[key] = `Should be between ${min} and ${max}`;
-                        ok = false;
-                    }
-                } else {
-                    errors[key] = "Should be an integer";
-                    ok = false;
-                }
-
-                if (ok) {
-                    errors[key] = "";
-                    setValueCallback(Number.parseInt(v));
-                }
-            } else {
-                ok = false;
-            }
-
-            return ok;
-        }
     }
 
     private readonly _onTextChange: (fieldName: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;

@@ -1,7 +1,7 @@
 import Guard from "../../common/Guard";
+import InvalidOperationError from "../../common/errors/InvalidOperationError";
 import ByteArrayStream from "../ByteArrayStream";
 import WriteOnlyByteArrayStream from "../WriteOnlyByteArrayStream";
-import InvalidOperationError from "../../common/errors/InvalidOperationError";
 
 const CAPACITY_EXPANSION_FACTOR = 1.5;
 const CAPACITY_EXPANSION_BLOCK_LIMIT = 4 * 1024 * 1024;

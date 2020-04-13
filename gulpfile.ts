@@ -66,7 +66,13 @@ gulp.task("copy-min", () => {
 
 gulp.task("build", (() => {
     if (MINIFY) {
-        return gulp.series(gulp.task("bundle"), gulp.task("copy-min"));
+        const tasks: gulp.TaskFunction[] = [
+            gulp.task("compile"),
+            gulp.task("bundle"),
+            gulp.task("copy-min"),
+        ];
+
+        return gulp.series(...tasks);
     } else {
         return gulp.task("bundle");
     }
