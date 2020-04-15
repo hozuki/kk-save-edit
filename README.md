@@ -26,6 +26,8 @@ ChaFile.SetCustomBytes (byte[],System.Version) <0x00039>
 ...
 ```
 
+Please consider the [.NET app](https://github.com/hozuki/KoikatuGameSaveEditor) or the [Python app](https://github.com/kiletw/KoikatuSaveDataEdit) instead.
+
 ## General
 
 This is a port of [KGSE](https://github.com/hozuki/KoikatuGameSaveEditor). Since WinForms has severe
