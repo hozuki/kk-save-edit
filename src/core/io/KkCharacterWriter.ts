@@ -12,8 +12,12 @@ import KnownPercentageKey from "../internal/known/KnownPercentageKey";
 import Enumerable from "../util/Enumerable";
 
 const DEFAULT_MSGPACK_ENCODE_OPTIONS: msgpack.EncodeOptions = {
-    // Looks like the genuine game does not set this flag,
-    // so they are potentially using float64...
+    // FIXME:
+    //   Looks like the genuine game does not set this flag,
+    //   so they are potentially using float64...
+    //   However, the deserialization library for .NET does not
+    //   allow implicit conversion from float64 to float32.
+    //   So, dead code.
     /* forceFloat32: true */
 };
 
@@ -46,11 +50,14 @@ export default class KkCharacterWriter {
             const memory = WriteOnlyByteArrayStream.new();
 
             for (const [i, key] of Enumerable.enumerate(infoOrder)) {
-                infoList.lstInfo[i].pos = position;
+                const entry = infoList.lstInfo[i];
+
+                entry.pos = position;
 
                 const data = infoData[key];
 
-                infoList.lstInfo[i].size = data.length;
+                entry.size = data.length;
+
                 memory.write(data);
 
                 position += data.length;
@@ -81,7 +88,14 @@ export default class KkCharacterWriter {
         if (Guard.defined(c.intelligence2)) {
             stream.writeUInt32LE(c.intelligence2);
         } else {
-            const intel = (Guard.defined(c.parameters) && c.parameters["intelligence"]) || 0;
+            let intel: number;
+
+            if (Guard.defined(c.parameters)) {
+                intel = c.parameters["intelligence"] || 0;
+            } else {
+                intel = 0;
+            }
+
             stream.writeUInt32LE(intel);
         }
 
@@ -105,15 +119,17 @@ export default class KkCharacterWriter {
         Guard.defined(c.ero) && stream.writeUInt32LE(c.ero);
 
         if (Guard.defined(c.percentages)) {
+            const perc = c.percentages;
+
             Guard.defined(c.unknown6) && stream.write(c.unknown6);
-            stream.write(c.percentages[KnownPercentageKey.Mune]);
-            stream.write(c.percentages[KnownPercentageKey.Kokan]);
-            stream.write(c.percentages[KnownPercentageKey.Anal]);
-            stream.write(c.percentages[KnownPercentageKey.Siri]);
-            stream.write(c.percentages[KnownPercentageKey.Tikubi]);
+            stream.write(perc[KnownPercentageKey.Mune]);
+            stream.write(perc[KnownPercentageKey.Kokan]);
+            stream.write(perc[KnownPercentageKey.Anal]);
+            stream.write(perc[KnownPercentageKey.Siri]);
+            stream.write(perc[KnownPercentageKey.Tikubi]);
             Guard.defined(c.unknown7) && stream.write(c.unknown7);
-            stream.write(c.percentages[KnownPercentageKey.KokanPiston]);
-            stream.write(c.percentages[KnownPercentageKey.AnalPiston]);
+            stream.write(perc[KnownPercentageKey.KokanPiston]);
+            stream.write(perc[KnownPercentageKey.AnalPiston]);
         }
 
         writeAdditionalData(stream, c);

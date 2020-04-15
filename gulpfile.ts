@@ -18,6 +18,7 @@ const $secondaryDestination = "dist";
 
 gulp.task("compile", () => {
     const tsProject = ts.createProject("./src/tsconfig.json", {
+        // FIXME: Using ttypescript in gulp-typescript doesn't work?
         typescript: tts
     });
 
