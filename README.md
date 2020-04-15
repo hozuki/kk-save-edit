@@ -6,7 +6,7 @@ It serves as a personal experiment with browser and language features. And React
 [Live demo](https://hozuki.github.io/kk-save-edit/) (See notes below)
 
 **Confirmed: This app does not and will not work properly.** This is because of JavaScript's poor typing system.
-It does not distinguish a float from an integer, if a number is possibly an integer. It does not distinguish (u)int8,
+It does not distinguish a float from an integer, if a number is possibly an integer. It does not distinguish between (u)int8,
 (u)int32, (u)int64, or float32, float64 either. So the [JS library](https://github.com/msgpack/msgpack-javascript) tries
 to encode all numbers to integers if they might be, and select the shortest possible range. Sadly, the [.NET library](https://github.com/msgpack/msgpack-cli)
 has a strict differentiation on numeric types; it allows shorter integers/floats to "upgrade" to long integers/floats,
