@@ -84,8 +84,8 @@ function setUint64(dataView: DataView, value: number, byteOffset: number, little
         right = d.lo;
     }
 
-    dataView.setUint32(0, left, littleEndian);
-    dataView.setUint32(4, right, littleEndian);
+    dataView.setUint32(byteOffset, left, littleEndian);
+    dataView.setUint32(byteOffset + 4, right, littleEndian);
 }
 
 export interface IWriteableByteArrayStreamEx extends IWriteableByteArrayStream, WriteableByteArrayStreamExImpl {
